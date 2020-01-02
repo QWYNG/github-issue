@@ -1,3 +1,4 @@
+use crate::github_client::*;
 use std::error::Error;
 
 struct Args {
@@ -33,6 +34,7 @@ pub fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
     println!("user: {}", args.user);
     println!("project: {}", args.project);
     println!("count: {}", args.count);
+    process(args);
     Ok(())
 }
 
@@ -50,4 +52,9 @@ fn parse_args(args: Vec<String>) -> Result<Args, &'static str> {
         )),
         _ => Err("\nPlease use\n\tgithub-issue [USER] [PROJECT] [COUNT(default 5)]\n"),
     }
+}
+
+fn process(args: Args) -> () {
+    let (user, project) = (args.user, args.project);
+    fetch(&user, &project);
 }
