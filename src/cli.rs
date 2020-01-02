@@ -1,4 +1,5 @@
 use std::env;
+use std::error::Error;
 
 struct Args {
     user: String,
@@ -26,25 +27,30 @@ impl Args {
     }
 }
 
-pub fn run() -> () {
-    let args = parse_args();
+// TODO トレイトで雑に実装したがジェネリクスでもできるかもしれない
+pub fn run() -> Result<(), Box<dyn Error>> {
+    let args = parse_args()?;
 
     println!("user: {}", args.user);
     println!("project: {}", args.project);
-    println!("count: {}", args.count)
+    println!("count: {}", args.count);
+    Ok(())
 }
 
-fn parse_args() -> Args {
+fn parse_args() -> Result<Args, &'static str> {
     let args: Vec<String> = env::args().collect();
 
     // env::argsの最初はプログラム名だった。
     match &args[1..] {
-        [user, project, count] if count.parse::<usize>().is_ok() => Args::new(
+        [user, project, count] if count.parse::<usize>().is_ok() => Ok(Args::new(
             user.to_string(),
             project.to_string(),
             count.parse::<usize>().unwrap(),
-        ),
-        [user, project] => Args::new_with_default_count(user.to_string(), project.to_string()),
-        _ => panic!("\nPlease use\n\tgithub-issue [USER] [PROJECT] [COUNT(default 5)]\n"),
+        )),
+        [user, project] => Ok(Args::new_with_default_count(
+            user.to_string(),
+            project.to_string(),
+        )),
+        _ => return Err("\nPlease use\n\tgithub-issue [USER] [PROJECT] [COUNT(default 5)]\n"),
     }
 }
