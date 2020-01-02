@@ -1,9 +1,12 @@
+use std::env;
 use std::process::exit;
 
 mod cli;
 
 fn main() {
-    if let Err(e) = cli::run() {
+    let args: Vec<String> = env::args().collect();
+
+    if let Err(e) = cli::run(args) {
         println!("Error! : {}", e);
 
         exit(1)

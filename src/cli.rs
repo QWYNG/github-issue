@@ -1,4 +1,3 @@
-use std::env;
 use std::error::Error;
 
 struct Args {
@@ -28,8 +27,8 @@ impl Args {
 }
 
 // TODO トレイトで雑に実装したがジェネリクスでもできるかもしれない
-pub fn run() -> Result<(), Box<dyn Error>> {
-    let args = parse_args()?;
+pub fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
+    let args = parse_args(args)?;
 
     println!("user: {}", args.user);
     println!("project: {}", args.project);
@@ -37,9 +36,7 @@ pub fn run() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-fn parse_args() -> Result<Args, &'static str> {
-    let args: Vec<String> = env::args().collect();
-
+fn parse_args(args: Vec<String>) -> Result<Args, &'static str> {
     // env::argsの最初はプログラム名だった。
     match &args[1..] {
         [user, project, count] if count.parse::<usize>().is_ok() => Ok(Args::new(
@@ -51,6 +48,6 @@ fn parse_args() -> Result<Args, &'static str> {
             user.to_string(),
             project.to_string(),
         )),
-        _ => return Err("\nPlease use\n\tgithub-issue [USER] [PROJECT] [COUNT(default 5)]\n"),
+        _ => Err("\nPlease use\n\tgithub-issue [USER] [PROJECT] [COUNT(default 5)]\n"),
     }
 }
