@@ -34,7 +34,7 @@ pub fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
     println!("user: {}", args.user);
     println!("project: {}", args.project);
     println!("count: {}", args.count);
-    process(args);
+    process(args)?;
     Ok(())
 }
 
@@ -54,7 +54,9 @@ fn parse_args(args: Vec<String>) -> Result<Args, &'static str> {
     }
 }
 
-fn process(args: Args) -> () {
+fn process(args: Args) -> Result<(), Box<dyn Error>> {
     let (user, project) = (args.user, args.project);
-    fetch(&user, &project);
+    let responce = fetch(&user, &project)?;
+    handle_response(responce)?;
+    Ok(())
 }
