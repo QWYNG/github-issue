@@ -1,3 +1,4 @@
+use crate::formatter::print_as_table;
 use crate::github_client::*;
 use std::error::Error;
 
@@ -57,6 +58,7 @@ fn parse_args(args: Vec<String>) -> Result<Args, &'static str> {
 fn process(args: Args) -> Result<(), Box<dyn Error>> {
     let (user, project) = (args.user, args.project);
     let responce = fetch(&user, &project)?;
-    let issues = handle_response(responce)?.sort_ascending_order("created_at");
+    let values = handle_response(responce)?.sort_ascending_order("created_at");
+    print_as_table(values, vec!["number", "title", "created_at"]);
     Ok(())
 }

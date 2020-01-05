@@ -4,6 +4,7 @@ use std::env;
 use std::process::exit;
 
 mod cli;
+mod formatter;
 mod github_client;
 
 fn main() {
