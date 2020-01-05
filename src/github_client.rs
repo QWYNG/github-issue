@@ -6,7 +6,7 @@ pub trait SortBy {
     where
         F: FnMut(&Self, &Self) -> Ordering;
 
-    fn sort_ascending_order(&mut self, element: &str) -> Self;
+    fn sort_descending_order(&mut self, element: &str) -> Self;
 }
 
 impl SortBy for serde_json::Value {
@@ -19,18 +19,18 @@ impl SortBy for serde_json::Value {
         self.to_owned()
     }
 
-    fn sort_ascending_order(&mut self, element: &str) -> Self {
+    fn sort_descending_order(&mut self, element: &str) -> Self {
         self.sort_by(|a, b| {
             if a[element].as_str().is_some() {
-                b[element]
+                a[element]
                     .as_str()
                     .unwrap()
-                    .cmp(&a[element].as_str().unwrap())
+                    .cmp(&b[element].as_str().unwrap())
             } else if a[element].as_u64().is_some() {
-                b[element]
+                a[element]
                     .as_u64()
                     .unwrap()
-                    .cmp(&a[element].as_u64().unwrap())
+                    .cmp(&b[element].as_u64().unwrap())
             } else {
                 // TODO ほかはいいべ…
                 unreachable!()
@@ -40,7 +40,7 @@ impl SortBy for serde_json::Value {
 }
 
 #[test]
-fn sort_ascending_order_test() {
+fn sort_descending_order_test() {
     let data = r#"
         [
             {"number": 2},
@@ -49,7 +49,7 @@ fn sort_ascending_order_test() {
         ]"#;
 
     let mut v: serde_json::Value = serde_json::from_str(data).unwrap();
-    let sorted_v = v.sort_ascending_order("number");
+    let sorted_v = v.sort_descending_order("number");
     assert_eq!(sorted_v[0]["number"].as_u64().unwrap(), 3);
     assert_eq!(sorted_v[1]["number"].as_u64().unwrap(), 2);
     assert_eq!(sorted_v[2]["number"].as_u64().unwrap(), 1);

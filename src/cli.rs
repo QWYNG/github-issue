@@ -58,7 +58,7 @@ fn parse_args(args: Vec<String>) -> Result<Args, &'static str> {
 fn process(args: Args) -> Result<(), Box<dyn Error>> {
     let (user, project) = (args.user, args.project);
     let responce = fetch(&user, &project)?;
-    let mut values = handle_response(responce)?.sort_ascending_order("created_at");
+    let mut values = handle_response(responce)?.sort_descending_order("created_at");
     let mut v = Vec::new();
     for _ in 0..args.count {
         v.push(values.as_array_mut().unwrap().pop().unwrap());
