@@ -31,10 +31,6 @@ impl Args {
 // TODO トレイトで雑に実装したがジェネリクスでもできるかもしれない
 pub fn run(args: Vec<String>) -> Result<(), Box<dyn Error>> {
     let args = parse_args(args)?;
-
-    println!("user: {}", args.user);
-    println!("project: {}", args.project);
-    println!("count: {}", args.count);
     process(args)?;
     Ok(())
 }

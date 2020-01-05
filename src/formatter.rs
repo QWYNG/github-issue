@@ -3,7 +3,6 @@ use std::borrow::Borrow;
 
 pub fn print_as_table(rows: Value, headers: Vec<&str>) -> () {
     let header_copy = headers.clone();
-    let row_copy = rows.clone();
     let columns = split_columns(rows, headers);
     let widths = widths_of(&columns);
 
@@ -52,7 +51,6 @@ fn widths_of(columns: &Vec<Vec<String>>) -> Vec<usize> {
     for column in columns {
         v.push(column.iter().map(|e| e.len()).max().unwrap())
     }
-    println! {"{:?}", v};
 
     v
 }
