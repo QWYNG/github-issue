@@ -50,9 +50,9 @@ fn sort_descending_order_test() {
 
     let mut v: serde_json::Value = serde_json::from_str(data).unwrap();
     let sorted_v = v.sort_descending_order("number");
-    assert_eq!(sorted_v[0]["number"].as_u64().unwrap(), 3);
+    assert_eq!(sorted_v[0]["number"].as_u64().unwrap(), 1);
     assert_eq!(sorted_v[1]["number"].as_u64().unwrap(), 2);
-    assert_eq!(sorted_v[2]["number"].as_u64().unwrap(), 1);
+    assert_eq!(sorted_v[2]["number"].as_u64().unwrap(), 3);
 }
 
 pub fn fetch(user: &String, project: &String) -> Result<Response, reqwest::Error> {
