@@ -1,7 +1,7 @@
 ## github-issue
 
 ### Usage 
-run with [USER] [PROJECT] [COUNT(default 5 Max 30)]  
+run with [USER] [PROJECT] [COUNT(default 5 Max 30)]  as below  
 `./github-issue rails rails 3`  
 then You can see the issues in newest order.
 
