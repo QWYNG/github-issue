@@ -40,7 +40,6 @@ fn split_columns_test() {
 
     let v: serde_json::Value = serde_json::from_str(data).unwrap();
     let columns = split_columns(v, vec!["number", "name", "role"]);
-    println!("{:?}", columns);
     assert_eq!(columns.len(), 3);
     assert_eq!(columns[0], ["1", "2", "3"]);
     assert_eq!(columns[2], ["Support", "ADC", "Fighter"]);
@@ -53,6 +52,26 @@ fn widths_of(columns: &Vec<Vec<String>>) -> Vec<usize> {
     }
 
     v
+}
+
+#[test]
+fn widths_of_test() {
+    let data = vec![
+        vec!["1".to_string(), "2".to_string(), "3".to_string()],
+        vec![
+            "Thresh".to_string(),
+            "Lucian".to_string(),
+            "Shyvana".to_string(),
+        ],
+        vec![
+            "Support".to_string(),
+            "ADC".to_string(),
+            "Fighter".to_string(),
+        ],
+    ];
+
+    let widths = widths_of(&data);
+    assert_eq!(widths, vec![1, 7, 7]);
 }
 
 fn print_one_line(columns: &Vec<String>, widths: &Vec<usize>) -> () {
