@@ -6,7 +6,7 @@ run with [USER] [PROJECT] [COUNT(default 5 Max 30)]  as below
 then You can see the issues in newest order.
 
 ```
-number |title                                                                                                |created_at           |
+number|title                                                                                                |created_at           |
 
 38157 |Modifing child model's instance variable triggers child model's validation at v5.2.3, but not v5.2.4 |2020-01-05T07:44:21Z |
 
