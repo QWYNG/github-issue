@@ -2,14 +2,9 @@ use serde_json::Value;
 use std::borrow::Borrow;
 
 pub fn print_as_table(rows: Value, headers: Vec<&str>) -> () {
-    let header_copy = headers.clone();
     let columns = split_columns(rows, headers);
     let widths = widths_of(&columns);
 
-    print_one_line(
-        &header_copy.iter().map(|s| s.to_string()).collect(),
-        &widths,
-    );
     print_columns(columns, &widths);
 }
 
@@ -17,6 +12,7 @@ fn split_columns(rows: Value, headers: Vec<&str>) -> Vec<Vec<String>> {
     let mut vec = Vec::new();
     for header in headers {
         let mut column = Vec::new();
+        column.push(header.to_string());
         for row in rows.as_array().unwrap().to_owned() {
             if row[header].is_number() {
                 column.push(row[header].as_u64().unwrap().to_string())
@@ -41,8 +37,8 @@ fn split_columns_test() {
     let v: serde_json::Value = serde_json::from_str(data).unwrap();
     let columns = split_columns(v, vec!["number", "name", "role"]);
     assert_eq!(columns.len(), 3);
-    assert_eq!(columns[0], ["1", "2", "3"]);
-    assert_eq!(columns[2], ["Support", "ADC", "Fighter"]);
+    assert_eq!(columns[0], ["number", "1", "2", "3"]);
+    assert_eq!(columns[2], ["role", "Support", "ADC", "Fighter"]);
 }
 
 fn widths_of(columns: &Vec<Vec<String>>) -> Vec<usize> {
@@ -50,7 +46,6 @@ fn widths_of(columns: &Vec<Vec<String>>) -> Vec<usize> {
     for column in columns {
         v.push(column.iter().map(|e| e.len()).max().unwrap())
     }
-
     v
 }
 
