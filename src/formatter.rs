@@ -41,7 +41,7 @@ fn split_columns_test() {
     assert_eq!(columns[2], ["role", "Support", "ADC", "Fighter"]);
 }
 
-fn widths_of(columns: &Vec<Vec<String>>) -> Vec<usize> {
+fn widths_of(columns: &[Vec<String>]) -> Vec<usize> {
     let mut v = Vec::new();
     for column in columns {
         v.push(column.iter().map(|e| e.len()).max().unwrap())
@@ -69,7 +69,7 @@ fn widths_of_test() {
     assert_eq!(widths, vec![1, 7, 7]);
 }
 
-fn print_one_line(columns: &Vec<String>, widths: &Vec<usize>) -> () {
+fn print_one_line(columns: &Vec<String>, widths: &[usize]) -> () {
     let mut v = Vec::new();
     for (column, width) in columns.iter().zip(widths) {
         let mut spaces = String::new();
@@ -83,7 +83,7 @@ fn print_one_line(columns: &Vec<String>, widths: &Vec<usize>) -> () {
     println!("{}\n", v.join(""));
 }
 
-fn print_columns(columns: Vec<Vec<String>>, width: &Vec<usize>) {
+fn print_columns(columns: Vec<Vec<String>>, width: &[usize]) {
     for i in 0..columns.first().unwrap().len() {
         print_one_line(
             &columns.iter().map(|column| column[i].clone()).collect(),
