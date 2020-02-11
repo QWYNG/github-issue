@@ -55,7 +55,7 @@ fn sort_descending_order_test() {
     assert_eq!(sorted_v[2]["number"].as_u64().unwrap(), 3);
 }
 
-pub fn fetch(user: &String, project: &String) -> Result<Response, reqwest::Error> {
+pub fn fetch(user: &str, project: &str) -> Result<Response, reqwest::Error> {
     const USER_AGENT: &str = "QWYNG/github-issue";
 
     let client = reqwest::blocking::Client::builder()
